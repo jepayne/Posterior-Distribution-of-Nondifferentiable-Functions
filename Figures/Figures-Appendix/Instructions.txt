@@ -1,0 +1,3 @@
+Instructions for running the code:
+1. Set the directory "Figures-Appendix" as your current working directory in Matlab
+2. Run the script "RunFile_Fig_Max.m"
