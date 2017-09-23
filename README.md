@@ -10,4 +10,4 @@ Instructions:
 - You can run the code by setting the appropriate Figures subdirectory as your current working directory in Matlab and then running the RunFile in the Figures subdirectory.
 
 Comments:
-- The number of simulations has been reduced in the code so that
+- The parameter values have been reduced in the code so that it can run more quickly. If you want to match the exact figures from the paper, then you will need to increase the parameter values to the numbers described in the code annotation.
