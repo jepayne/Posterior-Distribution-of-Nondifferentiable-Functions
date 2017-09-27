@@ -11,7 +11,7 @@
 %Corresponding author: Jonathan Payne 
 % ----------------------------------------------------------------------------
 
-%% 1.1) Main Parameters
+%% 0.1) Main Parameters
 
 clear; clc;
 
@@ -47,7 +47,7 @@ sthetaML = -3:.5:3;
 
 lenML    = size(sthetaML,2);
 
-%% 1.2)  Parameters for coverage calculations:
+%% 0.2)  Parameters for coverage calculations:
 
 J        = 101; 
            % Number of grid points for theta in coverage plots
@@ -68,7 +68,7 @@ Icov     = 200;
 ifig     = 1; 
            % Start figure count
 
-%% 1.3)  True model from which the data is generated
+%% 0.3)  True model from which the data is generated
 %      (X_i ~ N(\theta0,\sig0))
 
 theta0   = 0; 
@@ -82,7 +82,7 @@ g        = @(x)(abs(x));
 
 gprime   = @(x,the)((the ~= 0)*sign(the)*x + (the == 0)*abs(x));
 
-%% 1. 4)  Generate data
+%% 0.4)  Generate data
 
 Z               = randn(nZ,1); 
                   % Bootstrap draws and posterior draws (for analytical posterior)
