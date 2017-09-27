@@ -2,12 +2,13 @@
 % Absolute Value Example
 % ----------------------------------------------------------------------------
 % Description:  This file comptutes the plots for Figures 1 and 2 in the
-%   paper Kitagawa, Montiel-Olea, Payne. "Posterior Distribution of
-%   Non-Differential Functions". (2017).
+%   paper "Posterior Distribution of Non-Differential Functions".
 % ----------------------------------------------------------------------------
 % Authors:      Toru Kitagawa (t.kitagawa@ucl.ac.uk),
-%               Jose-Luis Montiel-Olea (montiel.olea@nyu.edu), and
+%               Jose-Luis Montiel-Olea (montiel.olea@gmail.com), and
 %               Jonathan Payne (jep459@nyu.edu)
+%
+%Corresponding author: Jonathan Payne (jep459@nyu.edu)
 % ----------------------------------------------------------------------------
 
 %% ------------------------------------------------------------
