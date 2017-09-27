@@ -4,66 +4,132 @@
 % Description:  This file comptutes the plots for Figures 1 and 2 in the
 %   paper "Posterior Distribution of Non-Differential Functions".
 % ----------------------------------------------------------------------------
-% Authors:      Toru Kitagawa (t.kitagawa@ucl.ac.uk),
-%               Jose-Luis Montiel-Olea (montiel.olea@gmail.com), and
+% Authors:      Toru Kitagawa (t.kitagawa@ucl.ac.uk)
+%               Jose-Luis Montiel-Olea (montiel.olea@gmail.com)
 %               Jonathan Payne (jep459@nyu.edu)
 %
-%Corresponding author: Jonathan Payne (jep459@nyu.edu)
+%Corresponding author: Jonathan Payne 
 % ----------------------------------------------------------------------------
 
-%% ------------------------------------------------------------
-% 0. Set up Parameters
-% ------------------------------------------------------------
+%% 1.1) Main Parameters
+
 clear; clc;
+
 rng('default') % Set random seed to default
 
 n = 100; % Sample size
 
 % Set size parameters for quantile:
-m = 500; % Number of samples generated (either as bootstrap draws or posterior draws) [Set to 1000 in paper]
-nZ = 500; % Number of draws to estimate parametric bootstrap [Set to 2000 in paper]
-I = 500; % Number of draws from MCMC when using random MLE [Set to 2000 in paper]
-IG = 10000; % Number of draws from MCMC when using MLE grid [Set to 10000 in paper]
-IB = 500; %Number of bootstrap repetitions [Set to 2000 in paper]
-sthetaML=-3:.5:3; % thetaML: Range of scaled MLE values (n^(1/2)thetaML) at which posterior is evaluated
-lenML = size(sthetaML,2);
+m        = 500; 
+           % Number of samples generated 
+           % (either as bootstrap draws or posterior draws) 
+           % [Set to 1000 in paper]
 
-% Set size parameters for coverage calculations:
-J = 101; % Number of grid points for theta in coverage plots
-width = 2;
-theta = linspace(-width,width,J)'; % Grid for the parameter space for coverage plot
-mcov = 200; % Number of data sets for coverage [Set to 750 in paper]
-Icov = 200; % Number of draws from MCMC for coverage [Set to 750 in paper]
+nZ       = 500; 
+           % Number of draws to estimate parametric bootstrap 
+           % [Set to 2000 in paper]
 
-ifig = 1; % Start figure count
+I        = 500; 
+           % Number of draws from MCMC when using random MLE 
+           % [Set to 2000 in paper]
 
-% True model from which the data is generated
-%   X_i ~ N(\theta0,\sig0)
-theta0 = 0; % True value of theta from which the data is generated
-sig0 = 1; % True value of theta from which the data is generated
+IG       = 10000; 
+           % Number of draws from MCMC when using MLE grid 
+           % [Set to 10000 in paper]
 
-% Transformation
-g=@(x)(abs(x));
-gprime=@(x,the)((the ~= 0)*sign(the)*x + (the == 0)*abs(x));
+IB       = 500; 
+           %Number of bootstrap repetitions 
+           %[Set to 2000 in paper]
 
-% Generate data
-Z=randn(nZ,1); % Bootstrap draws and posterior draws (for analytical posterior)
-dataMC = randn(m,n)+theta0; % Posterior draws (for MCMC models)
+sthetaML = -3:.5:3; 
+           % thetaML: Range of scaled MLE values 
+           % (n^(1/2)thetaML) at which posterior is evaluated
 
-% Generate the quantiles of the parametric bootstrap for fixed sthetML
-approx=abs(bsxfun(@plus,Z/(n^.5),(n^(-.5))*sthetaML));
-Approx_quant_2S=quantile(approx,[.975,.025],1); % Two sided approximate CS
-Approx_quant_1S=quantile(approx,[.975,0],1); % One sided approximate CS
+lenML    = size(sthetaML,2);
+
+%% 1.2)  Parameters for coverage calculations:
+
+J        = 101; 
+           % Number of grid points for theta in coverage plots
+
+width    = 2;
+
+theta    = linspace(-width,width,J)'; 
+           % Grid for the parameter space for coverage plot
+
+mcov     = 200; 
+           % Number of data sets for coverage 
+           % [Set to 750 in paper]
+
+Icov     = 200; 
+           % Number of draws from MCMC for coverage 
+           % [Set to 750 in paper]
+
+ifig     = 1; 
+           % Start figure count
+
+%% 1.3)  True model from which the data is generated
+%      (X_i ~ N(\theta0,\sig0))
+
+theta0   = 0; 
+           % True value of theta from which the data is generated
+
+sig0     = 1; 
+           % True value of theta from which the data is generated
+
+g        = @(x)(abs(x));
+           % Transformation
+
+gprime   = @(x,the)((the ~= 0)*sign(the)*x + (the == 0)*abs(x));
+
+%% 1. 4)  Generate data
+
+Z               = randn(nZ,1); 
+                  % Bootstrap draws and posterior draws (for analytical posterior)
+
+dataMC          = randn(m,n)+theta0; 
+                  % Posterior draws (for MCMC models)
+
+approx          = abs(bsxfun(@plus,Z/(n^.5),(n^(-.5))*sthetaML));
+                  % Generate the quantiles of the parametric bootstrap 
+                  % for fixed sthetML
+
+Approx_quant_2S = quantile(approx,[.975,.025],1); 
+                  % Two sided approximate CS
+
+Approx_quant_1S = quantile(approx,[.975,0],1); 
+                  % One sided approximate CS
 
 % Indicator variables (to indicate which sections of the code are run)
-quantnorm = 1; % If 1, then calculate the quantile plots for Normal priors
-covnorm = 1; % If 1, then calculate the coverage plots for Normal priors
-quantgamma_a = 1; % If 1, then calculate the quantile plots for Gamma priors using random MLE
-quantgamma_b = 1; % If 1, then calculate the quantile plots for Gamma priors using MLE grid
-covgamma = 1; % If 1, then calculate the coverage plots for Gamma priors
-quantbeta_a = 1; % If 1, then calculate the quantile plots for Beta priors using random ML
-quantbeta_b = 1; % If 1, then calculate the quantile plots for Beta priors using MLE grid
-covbeta = 1; % If 1, then calculate the coverage plots for Beta priors
+quantnorm    = 1; 
+               % If 1, then calculate the quantile plots for Normal priors
+            
+covnorm      = 1; 
+               % If 1, then calculate the coverage plots for Normal priors
+            
+quantgamma_a = 1; 
+               % If 1, then calculate the quantile plots for 
+               % Gamma priors using random MLE
+               
+quantgamma_b = 1;
+               % If 1, then calculate the quantile plots for 
+               % Gamma priors using MLE grid
+               
+covgamma     = 1; 
+               % If 1, then calculate the coverage plots for 
+               % Gamma priors
+               
+quantbeta_a  = 1; 
+               % If 1, then calculate the quantile plots for 
+               % Beta priors using random ML
+               
+quantbeta_b  = 1; 
+               % If 1, then calculate the quantile plots for 
+               % Beta priors using MLE grid
+               
+covbeta      = 1; 
+               % If 1, then calculate the coverage plots 
+               %for Beta priors
 
 %% ------------------------------------------------------------
 % 1. Figure: Normal priors with lambda2 = 5, 10
